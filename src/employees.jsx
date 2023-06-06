@@ -36,25 +36,8 @@ class EmployeeFilter extends React.Component {
     } 
 }
 
-class EmployeeTable extends React.Component {
-    constructor() {
-        super()
-        this.state = {employees: []}
-    }
-    componentDidMount() {
-        this.loadData()
-    }
-    loadData() {
-        setTimeout (() => {
-            this.setState({employees: initialEmployees})
-        }, 500)
-    }
-    createEmployee(employee) {
-        employee.id = this.state.employees.length + 1
-        employee.created - new Date()
-    }
-    render() {
-        const employeeRows = this.state.employees.map(employee =>
+function EmployeeTable(props) {
+        const employeeRows = props.employees.map(employee =>
             <EmployeeRow key={employee.id} employee={employee}/>)
         return(
             <table className="bordered-table">
@@ -75,12 +58,10 @@ class EmployeeTable extends React.Component {
                 </tbody>
             </table>
         )
-    } 
 }
 
-class EmployeeRow extends React.Component {
-    render () {
-        const employee=this.props.employee
+function EmployeeRow (props) {
+        const employee=props.employee
         return (<tr>
             <td>{employee.id}</td>
             <td>{employee.name}</td>
@@ -91,27 +72,72 @@ class EmployeeRow extends React.Component {
             <td>{employee.isEmployed ? 'Yes' : 'No'}</td>
         </tr>
         )
-    }
 }
 
 class EmployeeAdd extends React.Component {
+    constructor() {
+        super()
+        this.handleSubmit = this.handleSubmit.bind(this)
+    }
+    handleSubmit(e) {
+        e.preventDefault()
+        const form = document.forms.employeeAdd
+        const employee = {
+            name: form.name.value,
+            ext: form.ext.value,
+            email: form.email.value,
+            title: form.title.value,
+            dateHired: new Date(),
+            isEmployed: true,
+        }
+        this.props.createEmployee(employee)
+        form.name.value = ''
+        form.ext.value = ''
+        form.email.value = ''
+        form.title.value = ''
+    }
     render() {
-        return(<div>This is a placeholder for a form to add a new employee.</div>)
+        return(
+            <form name="employeeAdd" onSubmit={this.handleSubmit}>
+                Name: <input type="text" name="name" /><br/>
+                Extension: <input type="text" name="ext" /><br/>
+                Email: <input type="text" name="email" /><br/>
+                Title: <input type="text" name="title" /><br/>
+                <button>Add</button>
+            </form>
+        )
     } 
 }
 
 class EmployeeList extends React.Component {
+    constructor() {
+        super()
+        this.state = {employees: []}
+        this.createEmployee = this.createEmployee.bind(this)
+    }
+    componentDidMount() {
+        this.loadData()
+    }
+    loadData() {
+        setTimeout (() => {
+            this.setState({employees: initialEmployees})
+        }, 500)
+    }
+    createEmployee(employee) {
+        employee.id = this.state.employees.length + 1
+        const newEmployeesList = this.state.employees.slice()
+        newEmployeesList.push(employee)
+        this.setState({employees: newEmployeesList})
+    }
     render() { 
         return(
             <React.Fragment>
-                <BorderWrap>
                     <h1>Employee Management Application</h1> 
                     <EmployeeFilter />
                     <hr />
-                    <EmployeeTable/>
+                    <EmployeeTable employees={this.state.employees}/>
                     <hr />
-                    <EmployeeAdd />
-                </BorderWrap>
+                    <EmployeeAdd createEmployee={this.createEmployee} />
             </React.Fragment>
         )
     }
