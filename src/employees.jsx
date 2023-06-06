@@ -1,20 +1,13 @@
-const employees = [
-{
-    id: 1,
-    name: 'Jose Pereda',
-    ext: 1124,
-    email: 'joselpereda@live.com',
-    title: "Chief Tech Architect",
-},
-{
-    id: 2,
-    name: 'Sally Smith',
-    ext: 1125,
-    email: 'sallysmith@live.com',
-    title: "Director of Sales",
-
+class BorderWrap extends React.Component {
+    render() {
+        const borderStyle = {border: "1px solid silver", padding: 6}
+        return (
+             <div style={borderStyle}>
+                {this.props.children}
+             </div>
+        )
+    }
 }
-]
 
 class EmployeeFilter extends React.Component {
     render() {
@@ -24,20 +17,28 @@ class EmployeeFilter extends React.Component {
 
 class EmployeeTable extends React.Component {
     render() {
-        const employeeRows = employees.map(employee =>
-            <EmployeeRow employee={employee} />)
+        const rowStyle = {border: "1px solid silver", padding:4}
         return(
-            <table style="bordered-table">
+            <table style={{width:"100%", borderCollapse: "collapse"}}>
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Extension</th>
-                        <th>Email</th>
-                        <th>Title</th>
+                        <th style={rowStyle}>Name</th>
+                        <th style={rowStyle}>Extension</th>
+                        <th style={rowStyle}>Email</th>
+                        <th style={rowStyle}>Title</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {EmployeeRows}
+                    <EmployeeRow rowstyle={rowStyle}
+                        employee_name="Jose Pereda"
+                        employee_ext={5541}
+                        employee_email="joselpereda@live.com"
+                        employee_title="Chief Tech Architect"/>
+                    <EmployeeRow rowstyle={rowStyle}
+                        employee_name="Tricia Banks"
+                        employee_ext={4553}
+                        employee_email="sallybanks@live.com"
+                        employee_title="M&O"/>
                 </tbody>
             </table>
         )
@@ -67,12 +68,14 @@ class EmployeeList extends React.Component {
     render() { 
         return(
             <React.Fragment>
+                <BorderWrap>
                     <h1>Employee Management Application</h1> 
                     <EmployeeFilter />
                     <hr />
                     <EmployeeTable/>
                     <hr />
                     <EmployeeAdd />
+                </BorderWrap>
             </React.Fragment>
         )
     }
