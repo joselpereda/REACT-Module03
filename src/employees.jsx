@@ -1,4 +1,4 @@
-const employees = [
+const initialEmployees = [
     {
         id: 1,
         name: 'Jose Pereda',
@@ -37,8 +37,24 @@ class EmployeeFilter extends React.Component {
 }
 
 class EmployeeTable extends React.Component {
+    constructor() {
+        super()
+        this.state = {employees: []}
+    }
+    componentDidMount() {
+        this.loadData()
+    }
+    loadData() {
+        setTimeout (() => {
+            this.setState({employees: initialEmployees})
+        }, 500)
+    }
+    createEmployee(employee) {
+        employee.id = this.state.employees.length + 1
+        employee.created - new Date()
+    }
     render() {
-        const employeeRows = employees.map(employee =>
+        const employeeRows = this.state.employees.map(employee =>
             <EmployeeRow key={employee.id} employee={employee}/>)
         return(
             <table className="bordered-table">
