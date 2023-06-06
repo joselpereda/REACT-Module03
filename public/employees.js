@@ -1,3 +1,20 @@
+const employees = [{
+  id: 1,
+  name: 'Jose Pereda',
+  ext: 1124,
+  email: 'joselpereda@live.com',
+  title: "Chief Tech Architect",
+  dateHired: new Date('2005-08-28'),
+  isEmployed: true
+}, {
+  id: 2,
+  name: 'Sally Smith',
+  ext: 1125,
+  email: 'sallysmith@live.com',
+  title: "Director of Sales",
+  dateHired: new Date('2010-05-15'),
+  isEmployed: true
+}];
 class BorderWrap extends React.Component {
   render() {
     const borderStyle = {
@@ -16,50 +33,19 @@ class EmployeeFilter extends React.Component {
 }
 class EmployeeTable extends React.Component {
   render() {
-    const rowStyle = {
-      border: "1px solid silver",
-      padding: 4
-    };
+    const employeeRows = employees.map(employee => /*#__PURE__*/React.createElement(EmployeeRow, {
+      key: employee.id,
+      employee: employee
+    }));
     return /*#__PURE__*/React.createElement("table", {
-      style: {
-        width: "100%",
-        borderCollapse: "collapse"
-      }
-    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", {
-      style: rowStyle
-    }, "Name"), /*#__PURE__*/React.createElement("th", {
-      style: rowStyle
-    }, "Extension"), /*#__PURE__*/React.createElement("th", {
-      style: rowStyle
-    }, "Email"), /*#__PURE__*/React.createElement("th", {
-      style: rowStyle
-    }, "Title"))), /*#__PURE__*/React.createElement("tbody", null, /*#__PURE__*/React.createElement(EmployeeRow, {
-      rowstyle: rowStyle,
-      employee_name: "Jose Pereda",
-      employee_ext: 5541,
-      employee_email: "joselpereda@live.com",
-      employee_title: "Chief Tech Architect"
-    }), /*#__PURE__*/React.createElement(EmployeeRow, {
-      rowstyle: rowStyle,
-      employee_name: "Tricia Banks",
-      employee_ext: 4553,
-      employee_email: "sallybanks@live.com",
-      employee_title: "M&O"
-    })));
+      className: "bordered-table"
+    }, /*#__PURE__*/React.createElement("thead", null, /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("th", null, "ID"), /*#__PURE__*/React.createElement("th", null, "Name"), /*#__PURE__*/React.createElement("th", null, "Extension"), /*#__PURE__*/React.createElement("th", null, "Email"), /*#__PURE__*/React.createElement("th", null, "Title"), /*#__PURE__*/React.createElement("th", null, "Date Hired"), /*#__PURE__*/React.createElement("th", null, "Currently Employed?"))), /*#__PURE__*/React.createElement("tbody", null, employeeRows));
   }
 }
 class EmployeeRow extends React.Component {
   render() {
-    const style = this.props.rowstyle;
-    return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", {
-      style: style
-    }, this.props.employee_name), /*#__PURE__*/React.createElement("td", {
-      style: style
-    }, this.props.employee_ext), /*#__PURE__*/React.createElement("td", {
-      style: style
-    }, this.props.employee_email), /*#__PURE__*/React.createElement("td", {
-      style: style
-    }, this.props.employee_title));
+    const employee = this.props.employee;
+    return /*#__PURE__*/React.createElement("tr", null, /*#__PURE__*/React.createElement("td", null, employee.id), /*#__PURE__*/React.createElement("td", null, employee.name), /*#__PURE__*/React.createElement("td", null, employee.ext), /*#__PURE__*/React.createElement("td", null, employee.email), /*#__PURE__*/React.createElement("td", null, employee.title), /*#__PURE__*/React.createElement("td", null, employee.dateHired.toDateString()), /*#__PURE__*/React.createElement("td", null, employee.isEmployed ? 'Yes' : 'No'));
   }
 }
 class EmployeeAdd extends React.Component {
