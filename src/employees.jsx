@@ -101,5 +101,9 @@ class EmployeeList extends React.Component {
     }
 }
 
-const contentNode = document.getElementById('content')
-ReactDOM.render(<EmployeeList />, contentNode)
+ReactDOM.render(
+    <React.StrictMode>
+        <EmployeeList />
+    </React.StrictMode>,
+    document.getElementById('content')
+)
